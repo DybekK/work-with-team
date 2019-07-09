@@ -82,5 +82,9 @@
   },
   "engines": {
     "node": ">=10.9.0"
+  },
+  "dependencies": {
+    "flexboxgrid-sass": "^8.0.5",
+    "spectre.css": "^0.5.8"
   }
 }

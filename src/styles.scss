@@ -1,7 +1,104 @@
 /* You can add global styles to this file, and also import other style files */
+@import "../node_modules/spectre.css/src/spectre.scss";
+@import "../node_modules/spectre.css/src/icons";
+@import "../node_modules/flexboxgrid-sass/flexboxgrid.scss";
+
+h1,h2,h3,h4,h5,h6,p,span{
+  padding: 0;
+  margin: 0;
+}
+
 html, body {
   margin: 0;
   padding: 0;
-
   height: 100%;
 }
+
+
+
+// colors
+
+.menu ul li {
+  list-style: none;
+}
+
+$main-color-gray: #EEEEEE;
+app-navbar{
+ 
+  .navbar{
+    position: fixed;
+    top:0;
+    z-index: 2;
+    background-color:white;
+    padding: 0.5em 0;
+    width: 100%;
+    box-shadow: 0 0.05rem 0.2rem rgba(48, 55, 66, 0.3);
+    .log-out{
+      cursor: pointer;
+      padding: 0.1em 0;
+      display: flex;
+      align-items: center;
+      svg{
+        height: 1.3em;
+        margin-left: 0.8em;
+      }
+    }
+  }
+}
+
+
+app-leftbar{
+  
+  .menu{
+    position: fixed;
+  top:0;
+  z-index: 1;
+    background-color: white;
+    position: relative;
+
+  padding-top: 3em;
+  margin-top: 0.5em;
+    width: 16em;
+    height: 100%;
+    //box-shadow: 0 0.1rem 0.2rem rgba(48, 55, 66, 0.3);
+    .task-align{
+      display: flex;
+      align-items: center;
+      padding: 0.7em 0 0.7em 0.3em;
+      svg{
+        margin-right: 0.4em;
+      }
+      .tag-color{
+        height: 1.1em;
+        width: 1.1em;
+        border-radius: 50%;
+        background-color: red;
+        margin-right: 0.4em;
+      }
+    }
+    .user-info{
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      .account-icon{
+        height: 3em;
+        width: 3em;
+        background-color: cadetblue;
+        border-radius: 50%;
+      }
+    }
+    .menu-icon{
+      display: flex;
+    }
+    .accordion-main-title{
+      svg{
+        margin-right: 0.7em;
+      }
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+ 
+}
+
