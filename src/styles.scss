@@ -17,8 +17,8 @@ html, body {
 }
 
 .container-main{
-  margin-left: 1.2em;
-  margin-right: 1.2em;
+  margin-left: 1em;
+  margin-right: 1em;
   padding-left: auto;
   padding-right: auto;
 }
@@ -35,18 +35,44 @@ app-navbar{
   .navbar{
     position: relative;
     z-index: 2;
-    background-color:white;
+    background-color:$primary-color;
     padding: 0.5em 0;
     width: 100%;
     box-shadow: 0 0.05rem 0.1rem rgba(48, 55, 66, 0.2);
+    .settings{
+      margin: 0 1.2em;
+    }
+    .settings,.search{
+      
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      svg{
+
+        width: auto;
+        &:first-child{
+          height: 1.5em;
+        }
+        
+
+        height: 1.9em;
+        path {
+          fill: white;
+        }
+      }
+    }
     .log-out{
       cursor: pointer;
       padding: 0.1em 0;
+      color: white;
       display: flex;
       align-items: center;
       svg{
-        height: 1.3em;
-        margin-left: 0.8em;
+        height: 1.6em;
+        path {
+          fill: white;
+        }
       }
     }
   }
@@ -62,7 +88,8 @@ app-navbar{
     span{
       height: 4px;
       width: 20px;
-      background-color: $primary-color-dark;
+      border-radius: 10px;
+      background-color: $primary-color;
       position: absolute;
       &:first-child{
         transform: rotate(90deg);
@@ -136,44 +163,57 @@ app-leftbar{
  
 }
 
-app-main-header{
-  margin-top: 1em;
+.middle-view{
   width: 100%;
-  h2,h4,h6{
-    font-weight: 400;
-  }
-  .main-header{
-    padding: 2em 2em;
-    background-color: white;
-    border-radius: 5px;
-    box-shadow: 0 0.02rem 0.1rem rgba(48, 55, 66, 0.3);
-    display: flex;
+  app-main-header{
     width: 100%;
-    justify-content: space-between;
-    .date-area {
-      text-align: start;
-      align-items: flex-end;
-      display: flex;
-      flex-direction: column;
+    h2,h4,h6{
+      font-weight: 400;
+      color: white;
     }
-    .daily-text{
-      span{
-        font-weight: 500;
+    .main-header{
+      padding: 2em 2em;
+      background-image: url("./assets/background2.jpg");
+      background-position: center;
+      background-repeat: no-repeat;
+      box-shadow: 0 0.02rem 0.1rem rgba(48, 55, 66, 0.3);
+      //box-shadow: 0px 12px 8px -12px rgba(0,0,0,0.75);
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      .date-area {
+        text-align: start;
+        align-items: flex-end;
+        display: flex;
+        flex-direction: column;
       }
-      .random-text{
-        margin-top: 0.5em;
+      .daily-text{
+        span{
+          font-weight: 500;
+        }
+        .random-text{
+          margin-top: 0.5em;
+        }
       }
+    }
+    .add-task-button, .add-project-button{
+      display: flex;
+      cursor: pointer;
+  
+      align-items: center;
+      justify-content: center;
+  }
+  .add-project-button{
+    margin-top: 0.5em;
+  }
+  }
+}
+
+app-tasks{
+  .tasks{
+    h3{
+      margin: 0.5em 0;
+      font-weight: 400;
     }
   }
-  .add-task-button, .add-project-button{
-    display: flex;
-    cursor: pointer;
-
-    align-items: center;
-    justify-content: center;
 }
-.add-project-button{
-  margin-top: 0.5em;
-}
-}
-

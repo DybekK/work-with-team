@@ -21,6 +21,7 @@ import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LeftbarComponent } from './leftbar/leftbar.component';
 import { MainHeaderComponent } from './main-header/main-header.component';
+import { TasksComponent } from './tasks/tasks.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -34,7 +35,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     WebviewDirective,
     NavbarComponent,
     LeftbarComponent,
-    MainHeaderComponent
+    MainHeaderComponent,
+    TasksComponent
   ],
   imports: [
     BrowserModule,
