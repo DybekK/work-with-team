@@ -2,6 +2,8 @@ import express, {Application} from "express";
 import bodyParser from "body-parser";
 import { Routes } from './routes/crmRoutes';
 import mongoose from 'mongoose';
+import logger from 'morgan';
+import passport from 'passport';
 
 class App {
     public app: Application;
@@ -15,8 +17,10 @@ class App {
     }
 
     private config(): void {
+        this.app.use(logger('dev'));
         this.app.use(bodyParser.json());
-        this.app.use(bodyParser.urlencoded({ extended: false }))
+        this.app.use(bodyParser.urlencoded({ extended: false }));
+        this.app.use(passport.initialize());
     }
 
     private mongoSetup(): void {

@@ -12,13 +12,10 @@ export class Routes {
         })
     })
 
-    app.route('/contact') 
-    .get(this.contactController.getContacts)        
-    .post(this.contactController.addNewContact);
-    
-    app.route('/contact/:contactId')
-    .get(this.contactController.getConctactWithID)
-    .put(this.contactController.updateContact)
-    .delete(this.contactController.deleteContact)
-   }
+    app.route('/registerUser')       
+    .post(this.contactController.registerUser);
+
+    app.route('/loginUser')
+    .get(this.contactController.loginUser);
+    }
 }
