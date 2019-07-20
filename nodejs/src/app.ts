@@ -1,6 +1,6 @@
 import express, {Application} from "express";
 import bodyParser from "body-parser";
-import { Routes } from './routes/crmRoutes';
+import { Routes } from './routes/routes';
 import mongoose from 'mongoose';
 import logger from 'morgan';
 import passport from 'passport';

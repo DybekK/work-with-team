@@ -1,6 +1,6 @@
 import express, {Application, Response, Request} from "express";
 //import bodyParser from "body-parser";
-import { ContactController } from "../controllers/crmController";
+import { ContactController } from "../controllers/controller";
 
 export class Routes {
    public contactController: ContactController = new ContactController();
@@ -8,7 +8,7 @@ export class Routes {
     app.route('/')
     .get((req: Request, res: Response) => {            
         res.status(200).send({
-            message: 'GET request successfulll!!!!'
+            message: 'Routes are working'
         })
     })
 
@@ -16,6 +16,9 @@ export class Routes {
     .post(this.contactController.registerUser);
 
     app.route('/loginUser')
-    .get(this.contactController.loginUser);
+    .post(this.contactController.loginUser);
+
+    app.route('/findUser')
+    .post(this.contactController.findUser);
     }
 }
