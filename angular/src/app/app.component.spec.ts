@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ElectronService } from './providers/electron.service';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -15,6 +16,8 @@ describe('AppComponent', () => {
       ],
       imports: [
         RouterTestingModule,
+        ReactiveFormsModule,
+        FormsModule,
         TranslateModule.forRoot()
       ]
     }).compileComponents();

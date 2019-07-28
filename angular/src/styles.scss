@@ -3,6 +3,9 @@
 @import "../node_modules/spectre.css/src/icons";
 @import "../node_modules/flexboxgrid-sass/flexboxgrid.scss";
 
+
+
+
 h1,h2,h3,h4,h5,h6,p,span{
   padding: 0;
   margin: 0;
@@ -22,16 +25,162 @@ html, body {
   padding-left: auto;
   padding-right: auto;
 }
-
-// colors
+.container-login{
+  margin: 0 9em;
+  padding-left: auto;
+  padding-right: auto;
+}
 
 .menu ul li {
   list-style: none;
 }
 
 $main-color-gray: #EEEEEE;
-app-navbar{
- 
+
+app-login, app-register{
+  .login{
+    width: 100%;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
+
+    @media screen and (max-width: 786px) {
+      flex-direction: column;
+      justify-content: start;
+    }
+
+
+
+
+
+
+    .login-text{
+      width: 40em;
+      margin-right: 10em;
+      @media screen and (max-width: 1500px) {
+         width: 25em;
+       }
+       @media screen and (max-width: 1200px) {
+        width: 20em;
+        margin-right: 5em;
+       }
+
+       @media screen and (max-width: 870px) {
+        width: 15em;
+        margin-right: 5em;
+       }
+
+       @media screen and (max-width: 786px) {
+        margin: 0;
+        width: 90%;
+      }
+  
+      
+
+
+
+
+
+
+
+
+
+
+      h1{
+        font-size: 4em;
+        margin-bottom: 1em;
+        @media screen and (max-width: 1500px) {
+          font-size: 3.3em;
+        }
+        @media screen and (max-width: 870px) {
+          font-size: 3em;
+        }
+        @media screen and (max-width: 786px) {
+          font-size: 2em;
+        }
+        @media screen and (max-width: 400px) {
+          font-size: 1em;
+        }
+    
+      }
+      p{
+        font-size: 1.5em;
+        @media screen and (max-width: 1500px) {
+          font-size: 1.4em;
+        }
+        @media screen and (max-width: 870px) {
+          font-size: 1.3em;
+        }
+        @media screen and (max-width: 786px) {
+          font-size: 1.2em;
+        }
+        @media screen and (max-width: 400px) {
+          font-size: 1em;
+        }
+      }
+      
+    }
+    .login-forms{
+     width: 30em;
+    
+     @media screen and (max-width: 1500px) {
+     width: 25em;
+    }
+
+    @media screen and (max-width: 786px) {
+  
+      width: 90%;
+    }
+  
+   
+      .login-shadow{
+        width: 100%;
+        background-color: white;
+        box-shadow: 0 0.02rem 0.1rem rgba(48, 55, 66, 0.3); 
+        @media screen and (max-width: 786px) {
+          padding: 1em;
+        }
+          padding: 2.5em 3em;
+        h5{
+          font-weight: 400;
+          margin: 0.5em 0;
+        }
+      }
+      .form-group{
+        margin: 1.4em 0;
+      }
+    }
+
+    
+
+
+    .login-buttons{
+      //margin: 0 1em;
+      p{
+        margin: 0.6em 0;
+      }
+      a{
+        text-decoration: none;
+      }
+      button{
+        margin: 0.5em 0;
+        &:last-child{
+          display: flex;
+          justify-content:center;
+          align-items: center;
+          img{
+            margin-left: 0.5em;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
   .navbar{
     position: relative;
     z-index: 2;
@@ -96,7 +245,7 @@ app-navbar{
       }
     }
   }
-}
+
 
 .main-view{
   display: flex;
@@ -214,6 +363,7 @@ app-tasks{
     h3{
       margin: 0.5em 0;
       font-weight: 400;
+      font-size: 1.5em;
     }
     .task{
       box-shadow: 0 0.02rem 0.1rem rgba(48, 55, 66, 0.15);

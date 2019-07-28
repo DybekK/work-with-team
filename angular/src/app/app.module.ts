@@ -2,9 +2,9 @@ import 'reflect-metadata';
 import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -22,6 +22,12 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { LeftbarComponent } from './leftbar/leftbar.component';
 import { MainHeaderComponent } from './main-header/main-header.component';
 import { TasksComponent } from './tasks/tasks.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { ServerAuthService } from '../server-auth.service';
+import { AuthGuard } from '../auth.guard';
+import { TokenInterceptorService } from '../token-interceptor.service';
+import { AuthGoogleComponent } from './auth-google/auth-google.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -36,12 +42,16 @@ export function HttpLoaderFactory(http: HttpClient) {
     NavbarComponent,
     LeftbarComponent,
     MainHeaderComponent,
-    TasksComponent
+    TasksComponent,
+    LoginComponent,
+    RegisterComponent,
+    AuthGoogleComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule,
     HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
     AppRoutingModule,
     TranslateModule.forRoot({
       loader: {
@@ -51,7 +61,11 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     })
   ],
-  providers: [ElectronService],
+  providers: [ElectronService, ServerAuthService, AuthGuard,  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptorService,
+    multi: true
+  },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

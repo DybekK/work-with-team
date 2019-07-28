@@ -1,23 +1,27 @@
 import passport from "passport";
 import passportLocal from "passport-local";
-import jwtSecret from "../jwt/jwtConfig";
+import jwtSecret from "../configs/jwtConfig";
 import bcrypt from "bcrypt";
 import { User } from "../controllers/controller";
 import passportJwt, { ExtractJwt, StrategyOptions } from "passport-jwt";
+import passportGoogle from "passport-google-oauth20";
+import googleSecret from "../configs/googleConfig";
 
 export class UserAuth {
   public BCRYPT_SALT_ROUNDS: number = 12;
   public localStrategy = passportLocal.Strategy;
+  public googleStrategy = passportGoogle.Strategy;
   public jwtStrategy = passportJwt.Strategy;
   public extractJwt = passportJwt.ExtractJwt;
   public opts: StrategyOptions = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("JWT"),
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: jwtSecret.secret
   };
   constructor() {
     this.userRegister();
     this.userLogin();
     this.userJwt();
+    this.userGoogleAuth();
   }
   // LOCAL STRATEGY ONLY WITH USERNAME AND PASSWORD
 
@@ -46,7 +50,10 @@ export class UserAuth {
                 console.log(hashedPassword);
                 User.create({
                   username: username,
-                  password: hashedPassword
+                  firstname: '',
+                  lastname: '',
+                  email: '',
+                  password: hashedPassword,
                 }).then(user => {
                   console.log("user created");
                   return done(null, user);
@@ -84,6 +91,8 @@ export class UserAuth {
               console.log("user found and authenticated");
               return done(null, user);
             });
+          }).catch(err => {
+            done(err);
           });
         }
       )
@@ -94,7 +103,7 @@ export class UserAuth {
     passport.use(
       "jwt",
       new this.jwtStrategy(this.opts, (jwt_payload, done) => {
-        User.findOne({ username: jwt_payload }, (err, user: any) => {
+        User.findOne({ username: jwt_payload.id }, (err, user: any) => {
           if (err) {
             done(err);
           } else if (user) {
@@ -104,8 +113,49 @@ export class UserAuth {
             console.log("user not found in db");
             done(null, false);
           }
+        }).catch(err => {
+          done(err);
         });
       })
+    );
+  }
+
+  public userGoogleAuth() {
+    passport.use(
+      "google",
+      new this.googleStrategy(
+        {
+          callbackURL: googleSecret.callbackURL,
+          clientID: googleSecret.clientID,
+          clientSecret: googleSecret.clientSecret
+        },
+        (accessToken, refreshToken, profile, done) => {
+          console.log("callback function");
+          User.findOne({ googleId: profile.id }, (err, user) => {
+            if (err) {
+              return done(err);
+            } else if (!user) {
+              
+              const data = {
+                googleId: profile.id,
+                googleToken: accessToken,
+                username: profile.displayName
+              
+              };
+
+              User.create(data, (err: any, user: any) => {
+                return done(err, user);
+              }).catch(err => {
+                done(err);
+              });
+            } else {
+              return done(err, user);
+            }
+          }).catch(err => {
+            done(err);
+          });
+        }
+      )
     );
   }
 }

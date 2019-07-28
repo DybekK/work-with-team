@@ -12,11 +12,13 @@ const Schema = mongoose.Schema;
 // }
 
 export const userSchema = new Schema({
+    googleId: String,
+    googleToken: String,
     firstname: String,
     lastname: String,
     username: String,
     password: String,
-    mail: String,
+    email: String,
     created_date: {
         type: Date,
         default: Date.now
