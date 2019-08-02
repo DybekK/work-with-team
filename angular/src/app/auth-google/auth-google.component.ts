@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ServerAuthService } from '../../server-auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -9,16 +8,16 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class AuthGoogleComponent implements OnInit {
 
-  constructor(private serverAuth: ServerAuthService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
   id: string;
   ngOnInit() {
-    this.id = this.activatedRoute.snapshot.queryParamMap.get('jwt');
-    this.getToken();
+    // this.id = this.activatedRoute.snapshot.queryParamMap.get('jwt');
+    // this.getToken();
   }
 
-  getToken() {
-    localStorage.setItem('token', this.id);
-    this.router.navigate(['/home']);
-  }
+  // getToken() {
+  //   localStorage.setItem('token', this.id);
+  //   this.router.navigate(['/home']);
+  // }
 
 }

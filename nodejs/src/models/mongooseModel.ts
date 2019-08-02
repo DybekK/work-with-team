@@ -2,25 +2,69 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-// export type userDocument = mongoose.Document &  {
-//     firstname: String,
-//     lastname: String,
-//     username: String,
-//     password: String,
-//     mail: String,
-//     created_date: Date
-// }
 
 export const userSchema = new Schema({
-    googleId: String,
-    googleToken: String,
-    firstname: String,
-    lastname: String,
-    username: String,
-    password: String,
-    email: String,
+    googleId: {
+        type: String,
+    },
+    googleToken: {
+        type: String
+    },
+    firstname: {
+        type: String,
+        trim: true,
+        default: ''
+    },
+    lastname: {
+        type: String,
+        trim: true,
+        default: ''
+    },
+    username: {
+        type: String,
+        required: true
+    },
+    password: {
+        type: String,
+        trim: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    img: {
+        type: String
+    },
     created_date: {
         type: Date,
         default: Date.now
+    },
+    tasks: [{type: Schema.Types.ObjectId, ref: 'tasks'}]
+});
+
+export const tasksSchema = new Schema({
+    taskname: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        default: ''
+    },
+    priority: {
+        type: Number,
+        default: 1
+    },
+    repetition: {
+        type: String,
+        default: ''
+    },
+    created_date: {
+        type: Date,
+        default: Date.now
+    },
+    end_date: {
+        type: Date,
+        default: ''
     }
 });

@@ -1,17 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { ServerAuthService } from '../../server-auth.service';
 import { Router } from '@angular/router';
-
+import { remote } from 'electron';
+import { HttpErrorResponse } from '@angular/common/http';
+import { mongooseUser, loginUser } from '../interfaces/interfaces';
+require('events').EventEmitter.defaultMaxListeners = 100;
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class LoginComponent implements OnInit {
   submitted: boolean = false;
   loginForm: FormGroup;
+  loginError = {
+    auth: null,
+    message: null
+  };
+
   constructor(private fb: FormBuilder, private serverAuth: ServerAuthService, private router: Router) { }
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -33,19 +42,68 @@ export class LoginComponent implements OnInit {
   }
 
   loginUser(data: loginUser) {
-    this.serverAuth.login(data).subscribe(res => {
+    this.serverAuth.login(data).subscribe((res) => {
       localStorage.setItem('token', res.token);
       this.router.navigate(['/home']);
     },
-    err => {
-      console.log(err);
+    (err:HttpErrorResponse) => {
+     this.loginError.message = err.error.message;
+     this.loginError.auth = err.error.auth;
     })
     
   }
+
+  loginGoogle(){
+    const browserWindow = remote.BrowserWindow;
+      let authWindow = new browserWindow({
+        width: 384,
+        height:619,
+        show: true,
+        webPreferences: {
+          nodeIntegration: true,
+          webSecurity: false
+        }
+      });
+      authWindow.setResizable(false);
+      authWindow.loadURL('http://localhost:3000/auth/google');
+      try {
+        
+          authWindow.webContents.on('dom-ready', () => {
+            if(true){
+              authWindow.webContents.executeJavaScript(`require('electron').ipcRenderer.send('sendToken', document.querySelector("pre").innerHTML)`)
+             
+            }
+          })
+
+          const gettingToken = setInterval(() => {
+            let url: any = authWindow.webContents.getURL();
+              url = url.split('?');
+              if(url[0] == 'http://localhost:3000/auth/google/callback'){
+                const res = remote.getGlobal('res');
+                if(res.auth == false){
+                  authWindow.webContents.executeJavaScript(`document.write('Something went wrong, this is a server's problem)`)
+                  clearInterval(gettingToken); 
+                } else if (res.auth == true) {
+                authWindow.hide();
+                localStorage.setItem('token', res.token)
+                authWindow.destroy();
+                this.router.navigate(['/home']);
+                clearInterval(gettingToken); 
+                }
+              }
+          },1000);
+
+      }
+      catch (e){
+
+      }
+      authWindow.on('closed', () => {
+        authWindow = null;
+      })
+      
+  
+  }
+
 }
 
-export interface loginUser {
-  username: string,
-  email: string,
-  password: string
-}
+

@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ServerAuthService } from '../../server-auth.service';
 import { Router } from '@angular/router';
-
+import { mongooseUser } from '../interfaces/interfaces';
+import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -11,13 +12,17 @@ import { Router } from '@angular/router';
 export class RegisterComponent implements OnInit {
   submitted: boolean = false;
   registerForm: FormGroup;
+  registerError = {
+    auth: null,
+    message: null
+  };
   constructor(private fb: FormBuilder, private serverAuth: ServerAuthService, private router: Router) { }
 
   ngOnInit() {
     this.registerForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(4)]],
-      firstname: ['', Validators.required],
-      lastname: ['', Validators.required],
+      firstname: [''],
+      lastname: [''],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       repeatPassword: ['', Validators.required]
@@ -33,30 +38,23 @@ export class RegisterComponent implements OnInit {
     if(this.registerForm.invalid){
       return;
     }
-    console.warn(this.registerForm.value);
-    const data: registerUser = this.registerForm.value;
+    const data: mongooseUser = this.registerForm.value;
     this.registerUser(data);
   }
 
-  registerUser(data: registerUser) {
-    this.serverAuth.register(data).subscribe(res => {
+  registerUser(data: mongooseUser) {
+    this.serverAuth.register(data).subscribe((res) => {
       localStorage.setItem('token', res.token);
       this.router.navigate(['/home']);
     },
-    err => {
-      console.log(err);
+    (err: HttpErrorResponse) => {
+     this.registerError.message = err.error.message;
+     this.registerError.auth = err.error.auth;
     })
     
   }
 
 }
-
-export interface registerUser {
-  username: string,
-  email: string,
-  password: string
-}
-
 
 export function CheckPasswords(controlName: string, matchingName: string){
 return (formGroup: FormGroup) => {

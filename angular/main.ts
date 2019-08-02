@@ -1,8 +1,16 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, screen, IpcMain, ipcMain, dialog } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+const globalAny:any = global;
+require('events').EventEmitter.defaultMaxListeners = 100;
 
 let win, serve;
+
+const electron = require('electron')
+
+// Enable live reload for Electron too
+
+
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
@@ -55,6 +63,13 @@ try {
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
   app.on('ready', createWindow);
+
+  ipcMain.on('sendToken', (event, res) => {
+    res = JSON.parse(res);
+    globalAny.res = res;
+   })
+  
+
 
   // Quit when all windows are closed.
   app.on('window-all-closed', () => {

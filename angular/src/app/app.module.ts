@@ -5,9 +5,9 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
-
+import { PasswordStrengthMeterModule } from 'angular-password-strength-meter';
 import { AppRoutingModule } from './app-routing.module';
-
+import { UserDataService } from '../user-data.service'
 // NG Translate
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -28,7 +28,10 @@ import { ServerAuthService } from '../server-auth.service';
 import { AuthGuard } from '../auth.guard';
 import { TokenInterceptorService } from '../token-interceptor.service';
 import { AuthGoogleComponent } from './auth-google/auth-google.component';
-
+import {LocationStrategy, Location, HashLocationStrategy} from '@angular/common';
+import { LeftbarAllComponent } from './leftbar-all/leftbar-all.component';
+import { TasksLeftbarComponent } from './tasks-leftbar/tasks-leftbar.component';
+import { GroupsLeftbarComponent } from './groups-leftbar/groups-leftbar.component';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -45,7 +48,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     TasksComponent,
     LoginComponent,
     RegisterComponent,
-    AuthGoogleComponent
+    AuthGoogleComponent,
+    LeftbarAllComponent,
+    TasksLeftbarComponent,
+    GroupsLeftbarComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +59,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReactiveFormsModule,
     FormsModule,
     AppRoutingModule,
+    PasswordStrengthMeterModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -61,11 +68,13 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     })
   ],
-  providers: [ElectronService, ServerAuthService, AuthGuard,  {
+  providers: [ElectronService, ServerAuthService, AuthGuard, UserDataService,  {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptorService,
     multi: true
-  },],
+  },
+  Location, {provide: LocationStrategy, useClass: HashLocationStrategy}
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,8 +3,14 @@
 @import "../node_modules/spectre.css/src/icons";
 @import "../node_modules/flexboxgrid-sass/flexboxgrid.scss";
 
+* {
+  outline: none !important;
+}
 
-
+.error-occured{
+  color:  $error-color;
+  font-size: 1em;
+}
 
 h1,h2,h3,h4,h5,h6,p,span{
   padding: 0;
@@ -17,6 +23,9 @@ html, body {
   overflow: hidden;
   height: 100%;
   background-color: #F5F5F5;
+  @media screen and (max-width: 800px){
+    overflow: scroll;
+  }
 }
 
 .container-main{
@@ -36,7 +45,7 @@ html, body {
 }
 
 $main-color-gray: #EEEEEE;
-
+$text-color: #3b4351;
 app-login, app-register{
   .login{
     width: 100%;
@@ -122,6 +131,18 @@ app-login, app-register{
       }
       
     }
+    .register-forms{
+      width: 60% !important;
+      @media screen and (max-width: 1300px){
+        width: 70% !important;
+      }
+      @media screen and (max-width: 950px){
+        width: 80% !important;
+      }
+      @media screen and (max-width: 800px){
+        width: 90% !important;
+      }
+    }
     .login-forms{
      width: 30em;
     
@@ -134,19 +155,42 @@ app-login, app-register{
       width: 90%;
     }
   
-   
+    
       .login-shadow{
         width: 100%;
         background-color: white;
         box-shadow: 0 0.02rem 0.1rem rgba(48, 55, 66, 0.3); 
         @media screen and (max-width: 786px) {
           padding: 1em;
+          box-shadow: none;
+          background-color: transparent;
         }
           padding: 2.5em 3em;
         h5{
           font-weight: 400;
           margin: 0.5em 0;
         }
+  
+          .register-form{
+            
+            
+            .user-info-column{
+              
+              .form-group{
+                @media screen and (max-width: 786px){
+                  width: 100% !important;
+                }
+                width: 40%;
+              }
+              display: flex;
+              justify-content: space-between;
+              @media screen and (max-width: 786px){
+                flex-direction: column;
+              }
+            }
+            
+          }
+    
       }
       .form-group{
         margin: 1.4em 0;
@@ -157,7 +201,7 @@ app-login, app-register{
 
 
     .login-buttons{
-      //margin: 0 1em;
+      width: 20em;
       p{
         margin: 0.6em 0;
       }
@@ -170,10 +214,13 @@ app-login, app-register{
           display: flex;
           justify-content:center;
           align-items: center;
-          img{
+          svg{
             margin-left: 0.5em;
           }
         }
+      }
+      @media screen and (max-width: 440px){
+        width: 90% !important;
       }
     }
   }
@@ -252,6 +299,41 @@ app-login, app-register{
   height: 100vh;
 }
 app-leftbar{
+
+  .leftbar-nav{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    border-bottom: 1px solid rgba(0,0,0,0.17);
+
+    a{
+      text-decoration: none;
+      width: 33.3333333333%;
+      display: flex;
+      justify-content: center;
+      
+    &:focus{
+      outline: 0 !important;
+    }
+      span{
+        color: gray;
+        margin-bottom: 5px;
+      }
+    }
+
+  }
+  a.leftbar-nav-clicked{
+   
+    &:focus{
+      outline: 0 !important;
+    }
+    
+    span{
+      color: $text-color;
+    }
+    border-bottom: 3px solid $primary-color-dark;
+  }
+
   .menu{
   overflow-y:auto;
   position: relative;
@@ -259,7 +341,7 @@ app-leftbar{
     background-color: white;
   padding-top: 3em;
   margin-top: -1em;
-    width: 16em;
+    width: 17em;
     height: 100%;
     //box-shadow: 0 0.1rem 0.2rem rgba(48, 55, 66, 0.3);
     box-shadow: 0 0.02rem 0.1rem rgba(48, 55, 66, 0.3);
@@ -318,14 +400,15 @@ app-leftbar{
     width: 100%;
     h2,h4,h6{
       font-weight: 400;
-      color: white;
+      color: $text-color;
     }
     .main-header{
+      background-color: white;
       padding: 2em 2em;
-      background-image: url("./assets/background2.jpg");
+      //background-image: url("./assets/background2.jpg");
       background-position: center;
       background-repeat: no-repeat;
-      box-shadow: 0 0.02rem 0.1rem rgba(48, 55, 66, 0.3);
+      box-shadow: 0 0.02rem 0.002rem rgba(48, 55, 66, 0.1);
       //box-shadow: 0px 12px 8px -12px rgba(0,0,0,0.75);
       display: flex;
       width: 100%;
@@ -375,6 +458,12 @@ app-tasks{
         display: flex;
         align-items: center;
         justify-content: space-between;
+        h6{
+          font-size: 1em !important;
+        }
+        p{
+          font-size: 0.9em;
+        }
       }
       .tags{
         margin-top: 0.3em;
@@ -382,8 +471,10 @@ app-tasks{
         span{
           &:first-child{
             margin-left: 0;
+            
           }
           margin: 0 0.5em;
+          font-size: 0.9em;
         }
       }
     }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserDataService } from '../../user-data.service';
+import { mongooseUser } from '../interfaces/interfaces';
 
 @Component({
   selector: 'app-main-header',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainHeaderComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private userData: UserDataService) { }
+  userInfo: any = {
+    firstname: '',
+    lastname: ''
+  }
+  today: number = Date.now();
   ngOnInit() {
+    this.userData.getData$.subscribe((data: mongooseUser) => {
+      this.userInfo = data;
+    });
   }
 
 }

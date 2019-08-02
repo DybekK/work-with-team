@@ -23,99 +23,87 @@ export class UserAuth {
     this.userJwt();
     this.userGoogleAuth();
   }
-  // LOCAL STRATEGY ONLY WITH USERNAME AND PASSWORD
 
-  // METHOD WHICH ALLOWS YOU TO REGISTER NEW USER
   public userRegister() {
     passport.use(
       "register",
       new this.localStrategy(
         {
-          usernameField: "username",
-          passwordField: "password",
-          session: false
+          usernameField: "email",
+          session: false,
+          passReqToCallback: true
         },
-        (username, password, done) => {
-          User.findOne({ username: username }, (err, user) => {
+        (req, username, password, done) => {
+          User.findOne({ email: req.body.email }, (err, user) => {
             if (err) {
               return done(err);
             }
             if (user != null) {
-              return done(null, false, { message: "username already taken" });
+              return done(null, false, { message: "Email already taken" });
             }
-            // I HAVE TO UNDERSTAND THAT LATER BECAUSE I DONT KNOW WHAT ACTUALLY USER IS...
             bcrypt
               .hash(password, this.BCRYPT_SALT_ROUNDS)
               .then(hashedPassword => {
                 console.log(hashedPassword);
                 User.create({
-                  username: username,
-                  firstname: '',
-                  lastname: '',
-                  email: '',
+                  username: req.body.username,
+                  firstname: req.body.firstname,
+                  lastname: req.body.lastname,
+                  email: req.body.email,
                   password: hashedPassword,
                 }).then(user => {
-                  console.log("user created");
                   return done(null, user);
                 });
               });
-          }).catch(err => {
-            done(err);
           });
         }
       )
     );
   }
-  // METHOD WHICH ALLOWS YOU TO LOGIN AS AN USER
+
   public userLogin() {
     passport.use(
       "login",
       new this.localStrategy(
         {
           usernameField: "username",
-          passwordField: "password",
-          session: false
+          session: false,
+          passReqToCallback : true 
         },
-        (username, password, done) => {
-          User.findOne({ username: username }, (err, user: any) => {
+        (req, username, password, done) => {
+          User.findOne({ username: username, email: req.body.email }, (err, user: any) => {
             if (err) {
               return done(err);
             }
             if (!user) {
-              return done(null, false, { message: "incorrect username" });
+              return done(null, false, { message: "Incorrect username or email" });
             }
+            
             bcrypt.compare(password, user.password).then(response => {
               if (!response) {
                 return done(null, false, { message: "Incorrect password." });
               }
-              console.log("user found and authenticated");
               return done(null, user);
             });
-          }).catch(err => {
-            done(err);
           });
         }
       )
     );
   }
-  // METHOD WHICH ALLOWS YOU TO USE JWT
+
   public userJwt() {
     passport.use(
       "jwt",
       new this.jwtStrategy(this.opts, (jwt_payload, done) => {
-        User.findOne({ username: jwt_payload.id }, (err, user: any) => {
+        User.findOne({ email: jwt_payload.id }, (err, user: any) => {
           if (err) {
             done(err);
           } else if (user) {
-            console.log("username found in db in passport");
             done(null, user);
           } else {
-            console.log("user not found in db");
             done(null, false);
           }
-        }).catch(err => {
-          done(err);
-        });
+        })
       })
     );
   }
@@ -127,32 +115,28 @@ export class UserAuth {
         {
           callbackURL: googleSecret.callbackURL,
           clientID: googleSecret.clientID,
-          clientSecret: googleSecret.clientSecret
+          clientSecret: googleSecret.clientSecret,
         },
         (accessToken, refreshToken, profile, done) => {
-          console.log("callback function");
-          User.findOne({ googleId: profile.id }, (err, user) => {
+          User.findOne({ email: profile.emails![0].value }, (err, user) => {
             if (err) {
               return done(err);
-            } else if (!user) {
-              
-              const data = {
-                googleId: profile.id,
-                googleToken: accessToken,
-                username: profile.displayName
-              
-              };
-
-              User.create(data, (err: any, user: any) => {
-                return done(err, user);
-              }).catch(err => {
-                done(err);
-              });
-            } else {
+            } 
+            if (user != null) {  
               return done(err, user);
-            }
-          }).catch(err => {
-            done(err);
+            } 
+              User.create({
+                username: profile.displayName,
+                firstname: profile.name!.givenName,
+                lastname: profile.name!.familyName,
+                email: profile.emails![0].value,
+                img: profile.photos![0].value
+              }, (err: any, user: any) => {
+                if (err){
+                  return done(err)
+                }
+                return done(err, user);
+              })
           });
         }
       )

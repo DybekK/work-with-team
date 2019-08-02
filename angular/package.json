@@ -61,7 +61,7 @@
     "core-js": "2.6.1",
     "electron": "5.0.2",
     "electron-builder": "20.41.0",
-    "electron-reload": "1.4.0",
+    "electron-reload": "^1.4.0",
     "jasmine-core": "3.3.0",
     "jasmine-spec-reporter": "4.2.1",
     "karma": "3.1.1",
@@ -84,7 +84,9 @@
     "node": ">=10.9.0"
   },
   "dependencies": {
+    "angular-password-strength-meter": "0.0.4",
     "flexboxgrid-sass": "^8.0.5",
-    "spectre.css": "^0.5.8"
+    "spectre.css": "^0.5.8",
+    "zxcvbn": "^4.4.2"
   }
 }

@@ -1,13 +1,15 @@
 
 
 <app-navbar></app-navbar>
-
 <div class="main-view">
-    <app-leftbar></app-leftbar>
+    <!-- <app-leftbar></app-leftbar> -->
+    <router-outlet name="leftbar"></router-outlet>
     <div class="middle-view">
-        <app-main-header></app-main-header>
+        <!-- <app-main-header></app-main-header> -->
+        <router-outlet name="main-header"></router-outlet>
         <div class="container-main">
-            <app-tasks></app-tasks>
+            <!-- <app-tasks></app-tasks> -->
+            <router-outlet name="tasks"></router-outlet>
         </div>
     </div> 
 </div>

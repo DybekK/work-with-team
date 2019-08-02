@@ -1,15 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, Input } from '@angular/core';
+import { ServerAuthService } from '../../../server-auth.service';
+import { Router, ActivatedRoute} from '@angular/router';
+import { mongooseUser }from '../../interfaces/interfaces'
+import { UserDataService } from '../../../user-data.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
-  constructor() { }
+  constructor(private serverAuth: ServerAuthService, private router: Router, private userData: UserDataService, private route: ActivatedRoute) {
+    this.router.navigate([{ outlets: { leftbar: ['leftbar'] } }], {relativeTo: this.route});
+   }
 
   ngOnInit() {
+    this.serverAuth.findUser().subscribe(res => {
+      if(res.auth == true){
+        const userInfo: mongooseUser = {
+          username: res.username,
+          firstname: res.firstname,
+          lastname: res.lastname,
+          password: res.password,
+          email: res.email,
+          img: res.img
+        }
+        this.userData.getData(userInfo);
+      } else {
+        this.router.navigate(['/']);
+      }
+    })
   }
 
 }
