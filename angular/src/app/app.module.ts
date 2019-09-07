@@ -15,7 +15,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ElectronService } from './providers/electron.service';
 
 import { WebviewDirective } from './directives/webview.directive';
-
+import { FullCalendarModule } from '@fullcalendar/angular';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -59,6 +59,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReactiveFormsModule,
     FormsModule,
     AppRoutingModule,
+    FullCalendarModule,
     PasswordStrengthMeterModule,
     TranslateModule.forRoot({
       loader: {

@@ -84,8 +84,15 @@
     "node": ">=10.9.0"
   },
   "dependencies": {
+    "@angular/animations": "^8.2.0",
+    "@fullcalendar/angular": "^4.2.1",
+    "@fullcalendar/core": "^4.2.0",
+    "@fullcalendar/daygrid": "^4.2.0",
+    "angular-calendar": "^0.27.14",
     "angular-password-strength-meter": "0.0.4",
+    "date-fns": "^1.30.1",
     "flexboxgrid-sass": "^8.0.5",
+    "moment": "^2.24.0",
     "spectre.css": "^0.5.8",
     "zxcvbn": "^4.4.2"
   }

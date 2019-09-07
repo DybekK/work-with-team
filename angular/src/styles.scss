@@ -3,8 +3,14 @@
 @import "../node_modules/spectre.css/src/icons";
 @import "../node_modules/flexboxgrid-sass/flexboxgrid.scss";
 
+@import '~@fullcalendar/core/main.css';
+@import '~@fullcalendar/daygrid/main.css';
+
 * {
   outline: none !important;
+}
+.calendar .calendar-header, .calendar .calendar-body{
+  justify-content: flex-start;
 }
 
 .error-occured{
@@ -402,13 +408,29 @@ app-leftbar{
       font-weight: 400;
       color: $text-color;
     }
+
+
+    .modal{
+      .form-group{
+        margin: 1.3em 0 !important;
+        .tags{
+          margin: 1em 0;
+        }
+       
+      }
+      .date-output-range{
+        display: flex;
+        align-items: center;
+      }
+    }
+
     .main-header{
       background-color: white;
       padding: 2em 2em;
       //background-image: url("./assets/background2.jpg");
       background-position: center;
       background-repeat: no-repeat;
-      box-shadow: 0 0.02rem 0.002rem rgba(48, 55, 66, 0.1);
+      box-shadow: 0 0.02rem 0.01rem rgba(48, 55, 66, 0.1);
       //box-shadow: 0px 12px 8px -12px rgba(0,0,0,0.75);
       display: flex;
       width: 100%;

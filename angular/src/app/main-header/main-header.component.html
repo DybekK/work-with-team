@@ -1,23 +1,117 @@
 
+  <div class="modal" id="add-new-task"><a class="modal-overlay" href="#modals-sizes" aria-label="Close"></a>
+    <div class="modal-container" role="document">
+      <div class="modal-header"><a class="btn btn-clear float-right" href="#modals-sizes" aria-label="Close"></a>
+        <div class="modal-title h5">Modal title</div>
+      </div>
+      <div class="modal-body">
+        <div class="content">
+          <form [formGroup]="addTaskForm">
+            <div class="form-group">
+              <label class="form-label" for="input-example-7">Task name</label>
+              <input class="form-input" id="input-example-7" type="text" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="input-example-7">Description</label>
+                <input class="form-input" id="input-example-7" type="text" placeholder="Name">
+              </div>
+            <div class="form-group">
+              <label class="form-label">Priority</label>
+              <label class="form-radio">
+                <input type="radio" name="gender"><i class="form-icon"></i> Priority 1
+              </label>
+              <label class="form-radio">
+                <input type="radio" name="gender" checked=""><i class="form-icon"></i> Priority 2
+              </label>
+              <label class="form-radio">
+                  <input type="radio" name="gender" checked=""><i class="form-icon"></i> Priority 3
+                </label>
+                <label class="form-radio">
+                    <input type="radio" name="gender" checked=""><i class="form-icon"></i> Priority 4
+                  </label>
+                  
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="input-example-7">Add tags</label>
+                <input class="form-input" id="input-example-7" type="text" placeholder="Name">
+                <div class="tags">
+                    <span class="label label-rounded label-secondary ">primary label</span>
+                    <span class="label label-rounded label-secondary">primary label</span>
+                    <span class="label label-rounded label-secondary">primary label</span>
+                </div>
+              </div>
+              <div class="from-group">
+                  <div class="calendar">
+                      <div class="calendar-nav navbar">
+                        <button (click)="previousMonth()" class="btn btn-action btn-link btn-lg"><i class="icon icon-arrow-left"></i></button>
+                        <div class="navbar-primary">{{date.format('MMMM')}} {{date.format('YYYY')}}</div>
+                        <button (click)="nextMonth()" class="btn btn-action btn-link btn-lg"><i class="icon icon-arrow-right"></i></button>
+                      </div>
+                      <div class="calendar-container">
+                        <div class="calendar-header">
+                          <div class="calendar-date">Sun</div>
+                          <div class="calendar-date">Mon</div>
+                          <div class="calendar-date">Tue</div>
+                          <div class="calendar-date">Wed</div>
+                          <div class="calendar-date">Thu</div>
+                          <div class="calendar-date">Fri</div>
+                          <div class="calendar-date">Sat</div>
+                        </div>
+                        <div class="calendar-body">
+                          <div *ngFor="let day of daysArray"  [ngClass]="{'calendar-range': isSelected(day)}" class="calendar-date">
+                            <button (click)="selectDate(day)" [ngClass]="{'date-today': setToday(day)}" class="date-item">{{day?.date()}}</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+              </div>
+              <div class="form-group date-output-range">
+                  <input class="form-input" id="input-example-7" type="text" placeholder="Start date DD/MM/YYYY" formControlName="dateFrom" name="dateFrom">
+            
+                  <input class="form-input" id="input-example-7" type="text" placeholder="End date DD/MM/YYYY " formControlName="dateTo" name="dateTo">
+                </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary">Submit</button><a class="btn btn-link" href="#modals-sizes" aria-label="Close">Close</a>
+      </div>
+    </div>
+  </div>
+
     <div class="main-header">
 
       <div class="daily-text">
-          <h2>Good morning, <span>{{userInfo.firstname}} {{ userInfo.lastname}}</span></h2>
+          <h2>Good morning, <span>{{userInfo.firstname || userInfo.username}} {{ userInfo.lastname}}</span></h2>
 
         <div class="divider"></div>
               <h4 class="random-text">What are you planning?</h4>
 
       </div>
-            
-          
-       
       
         <div class="date-area">
         
                 <h6>Today is: <b>{{today | date: 'fullDate'}}</b></h6>
        <div class="divider"></div>
-       <button class="btn btn-primary btn-sm">Add new task</button>
-       <button class="btn btn-primary btn-sm mt-2">Add new project</button>  
+       <div class="dropdown">
+              
+                
+          <a class="dropdown-toggle" tabindex="0">
+              <div class="add-project-button">
+                  <div class="add-project">
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+          </a>
+      
+          <!-- menu component -->
+          <ul style="margin-left: -8em;" class="menu">
+            <li class="menu-item"><a href="#add-new-task">Add new task</a></li>
+             <li class="menu-item"><a>Add new project</a></li>
+          </ul>
+        
+      </div>
             
           </div>
         </div>

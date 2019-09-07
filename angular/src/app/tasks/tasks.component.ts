@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import dayGridPlugin from '@fullcalendar/daygrid';
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
@@ -11,5 +11,5 @@ export class TasksComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  calendarPlugins = [dayGridPlugin];
 }
