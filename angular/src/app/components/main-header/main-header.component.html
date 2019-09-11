@@ -1,0 +1,128 @@
+
+  <div class="modal" id="add-new-task"><a class="modal-overlay" href="#modals-sizes" aria-label="Close"></a>
+    <div class="modal-container" role="document">
+      <div class="modal-header"><a class="btn btn-clear float-right" href="#modals-sizes" aria-label="Close"></a>
+        <div class="modal-title h5">Add new task</div>
+      </div>
+      <div class="modal-body">
+        <div class="content">
+        <form [formGroup]="addTaskDataForm">
+            <div class="form-group">
+              <label class="form-label" for="input-example-7">Task name</label>
+              <input formControlName="taskname" class="form-input" id="input-example-7" type="text" placeholder="Task name" [ngClass]="{'is-error': postTaskSubmitted && postTaskDataControlls.taskname.errors}">    
+              <p *ngIf="postTaskSubmitted && postTaskDataControlls.taskname.errors && postTaskDataControlls.taskname.errors.required" class="form-input-hint">Task name is required</p>
+            
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="input-example-7">Description</label>
+                <input formControlName="description" class="form-input" id="input-example-7" type="text" placeholder="description">
+              </div>
+            <div class="form-group">
+              <label class="form-label">Priority</label>
+              <label class="form-radio">
+                <input formControlName="priority" value="1" type="radio" [checked]="true"><i class="form-icon"></i> Priority 1
+              </label>
+              <label class="form-radio">
+                <input formControlName="priority" value="2" type="radio"><i class="form-icon"></i> Priority 2
+              </label>
+              <label class="form-radio">
+                  <input formControlName="priority" value="3" type="radio"><i class="form-icon"></i> Priority 3
+                </label>
+                <label class="form-radio">
+                    <input formControlName="priority" value="4" type="radio"><i class="form-icon"></i> Priority 4
+                  </label>
+                  
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="input-example-7">Add tags</label>
+                <input class="form-input" id="input-example-7" type="text" placeholder="Name">
+                <div class="tags">
+                    <span class="label label-rounded label-secondary ">primary label</span>
+                    <span class="label label-rounded label-secondary">primary label</span>
+                    <span class="label label-rounded label-secondary">primary label</span>
+                </div>
+              </div>
+            </form>
+              <form [formGroup]="calendar.addTaskForm">
+                  <div class="calendar">
+                      <div class="calendar-nav navbar">
+                        <button (click)="calendar.previousMonth()" class="btn btn-action btn-link btn-lg"><i class="icon icon-arrow-left"></i></button>
+                        <div class="navbar-primary">{{calendar.date.format('MMMM')}} {{calendar.date.format('YYYY')}}</div>
+                        <button (click)="calendar.nextMonth()" class="btn btn-action btn-link btn-lg"><i class="icon icon-arrow-right"></i></button>
+                      </div>
+                      <div class="calendar-container">
+                        <div class="calendar-header">
+                          <div class="calendar-date">Sun</div>
+                          <div class="calendar-date">Mon</div>
+                          <div class="calendar-date">Tue</div>
+                          <div class="calendar-date">Wed</div>
+                          <div class="calendar-date">Thu</div>
+                          <div class="calendar-date">Fri</div>
+                          <div class="calendar-date">Sat</div>
+                        </div>
+                        <div class="calendar-body">
+                          <div *ngFor="let day of calendar.daysArray"  [ngClass]="{'calendar-range': calendar.isSelected(day)}" class="calendar-date">
+                            <button (click)="calendar.selectDate(day)" [ngClass]="{'date-today': calendar.setToday(day)}" class="date-item">{{day?.date()}}</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                 
+              <div class="form-group date-output-range">
+                  <input class="form-input" id="input-example-7" type="text" placeholder="Start date DD/MM/YYYY" formControlName="date_from" name="date_from">
+            
+                  <input class="form-input" id="input-example-7" type="text" placeholder="End date DD/MM/YYYY " formControlName="date_to" name="date_to">
+                </div>
+              </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button (click)="onPostTaskSubmit()" class="btn btn-primary">Add task</button><a (click)="addTaskDataForm.reset()" class="btn btn-link" href="#modals-sizes" aria-label="Close">Cancel</a>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+    <div class="main-header">
+
+      <div class="daily-text">
+          <h2>Good morning, <span>{{userInfo.firstname || userInfo.username}} {{ userInfo.lastname}}</span></h2>
+
+        <div class="divider"></div>
+              <h4 class="random-text">What are you planning?</h4>
+
+      </div>
+      
+        <div class="date-area">
+        
+                <h6>Today is: <b>{{today | date: 'fullDate'}}</b></h6>
+       <div class="divider"></div>
+       <div class="dropdown">
+              
+                
+          <a class="dropdown-toggle" tabindex="0">
+              <div class="add-project-button">
+                  <div class="add-project">
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+          </a>
+      
+          <!-- menu component -->
+          <ul style="margin-left: -8em;" class="menu">
+            <li class="menu-item"><a href="#add-new-task">Add new task</a></li>
+             <li class="menu-item"><a>Add new project</a></li>
+          </ul>
+        
+      </div>
+            
+          </div>
+        </div>
+ 
+
+
+

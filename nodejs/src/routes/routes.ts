@@ -6,6 +6,7 @@ export class Routes {
 public userAuth: UserAuth = new UserAuth();
    public contactController: ContactController = new ContactController();
    public routes(app: Application): void {
+    // USER OPERATIONS
     app.route('/registerUser')       
     .post(this.contactController.registerUser);
 
@@ -18,7 +19,17 @@ public userAuth: UserAuth = new UserAuth();
     app.route('/auth/google/callback')
     .get(this.contactController.googleAuthCallback);
 
+    //AUTH USER WHILE LOGGING
+
     app.route('/findUser')
     .get(this.contactController.findUser)
+
+    // USER GET AND POSTS OPERATIONS
+
+    app.route('/postTask')
+    .post(this.contactController.postTask);
+
+    app.route('/getTasks')
+    .get(this.contactController.getTasks);
     }
 }

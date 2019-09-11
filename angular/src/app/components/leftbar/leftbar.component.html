@@ -1,0 +1,44 @@
+
+    <ul class="menu">
+        <!-- menu header text -->
+        <li class="divider" data-content="USER">
+        </li>
+        <!-- menu divider -->
+        <li style="margin: 2.5em 0;" class="menu-item">
+          <div class='user-info'>
+            <ng-container *ngIf="userInfo?.img; else elseImgIcon">
+                <img *ngIf="userInfo?.img" [src]="userInfo?.img" class="account-icon">
+            </ng-container>
+            <ng-template #elseImgIcon>
+                <div class="account-icon">
+
+                  </div>
+            </ng-template>
+              <div>
+                  <h4>{{userInfo.username}}</h4>
+                  <p>10/15 Done</p>
+              </div>
+   
+          </div>
+
+        </li>
+        <!-- menu item with badge -->
+        <li class="leftbar-nav">
+          <!-- <p (click)="showAll()"  class="leftbar-nav-clicked"><span>All</span></p>
+          <p (click)="showTasks()"><span>Tasks</span></p>
+          <p><span>Groups</span></p> -->
+          <a [routerLink]="[{ outlets: { leftbarOptions: ['all'] } }]"  routerLinkActive="leftbar-nav-clicked"><span>All</span></a>
+          <a [routerLink]="[{ outlets: { leftbarOptions: ['tasks'] } }]"  routerLinkActive="leftbar-nav-clicked"><span>Tasks</span></a>
+          <a [routerLink]="[{ outlets: { leftbarOptions: ['groups'] } }]"  routerLinkActive="leftbar-nav-clicked"><span>Groups</span></a>
+        </li>
+
+        <li>
+          <router-outlet name="leftbarOptions"></router-outlet>
+        </li>
+
+
+
+
+        
+      </ul>
+

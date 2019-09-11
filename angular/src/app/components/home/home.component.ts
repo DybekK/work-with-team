@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ServerAuthService } from '../../../server-auth.service';
+import { ServerAuthService } from '../../providers/server-auth.service';
 import { Router, ActivatedRoute} from '@angular/router';
 import { mongooseUser }from '../../interfaces/interfaces'
-import { UserDataService } from '../../../user-data.service';
+import { UserDataService } from '../../providers/user-data.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',

@@ -1,0 +1,76 @@
+<div class="login">
+    <div class="login-forms register-forms">
+     
+        <div class="login-shadow">
+          <h4>Welcome</h4>
+          <h5>Sign in to start using our app</h5>
+          <form class="register-form" [formGroup]="registerForm" (onSubmit)="onSubmit()">
+            <div class="user-info-column">
+                <div class="form-group">
+                    <label class="form-label" for="register-username">Username</label>
+                    <input formControlName="username" class="form-input" type="text" id="register-username" name="username" placeholder="Username" [ngClass]="{'is-error': submitted && registerControls.username.errors}">
+                    <p *ngIf="submitted && registerControls.username.errors && registerControls.username.errors.minlength" class="form-input-hint">Username has to be at least 4 characters long</p>
+                    <p *ngIf="submitted && registerControls.username.errors && registerControls.username.errors.required" class="form-input-hint">Username is required</p>
+                    <p class="form-input-hint">This will be your username. You can't change it later</p>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="register-email">Email</label>
+                    <input formControlName="email" class="form-input" type="text" id="register-email" placeholder="youremail@domain.com" [ngClass]="{'is-error': (submitted && registerControls.email.errors) || registerError.auth == false}">
+                    <p *ngIf="registerControls.email.errors && registerControls.email.errors.email" class="form-input-hint">Incorrect form of email</p>
+                    <p *ngIf="submitted && registerControls.email.errors && registerControls.email.errors.required" class="form-input-hint">Email is required</p>
+                    <p class="form-input-hint">We will use your email to authorize your account and data. We’ll never share your email address with anyone.</p>
+                  </div>
+                  
+                   
+            </div>
+            <div class="user-info-column">
+              <div class="form-group">
+                <label class="form-label" for="register-firstname">Firstname</label>
+                <input formControlName="firstname" class="form-input" type="text" id="register-firstname" placeholder="Firstname" [ngClass]="{'is-error': submitted && registerControls.firstname.errors}">
+                <p *ngIf="submitted && registerControls.firstname.errors" class="form-input-hint">Firstname is required</p>
+                <p class="form-input-hint">Your name is not required, but it can help other people to recognize you.</p>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="register-password">Password</label>
+                <input formControlName="password" class="form-input" type="password" id="register-password" placeholder="Password" [ngClass]="{'is-error': submitted && registerControls.password.errors}">
+                <p *ngIf="submitted && registerControls.password.errors && registerControls.password.errors.minlength" class="form-input-hint">Password has to be at least 6 characters long</p>
+                <p *ngIf="submitted && registerControls.password.errors && registerControls.password.errors.required" class="form-input-hint">Password is required</p>
+                <password-strength-meter [password]="registerForm.value.password"></password-strength-meter>
+                
+            </div>
+            </div>
+                <div class="user-info-column">
+                  <div class="form-group">
+                    <label class="form-label" for="register-lastname">Lastname</label>
+                    <input formControlName="lastname" class="form-input" type="text" id="register-lastname" placeholder="Lastname" [ngClass]="{'is-error': submitted && registerControls.lastname.errors}">
+                    <p *ngIf="submitted && registerControls.lastname.errors" class="form-input-hint">Lastname is required</p>
+                    <p class="form-input-hint">Your name is not required, but it can help other people to recognize you.</p>
+                  </div>
+                      
+                      <div class="form-group">
+                          <label class="form-label" for="register-repeat-password">Repeat Password</label>
+                          <input formControlName="repeatPassword" class="form-input" type="password" id="register-repeat-password" placeholder="Repeat Password" [ngClass]="{'is-error': submitted && registerControls.repeatPassword.errors}">
+                          <p *ngIf="submitted && registerControls.repeatPassword.errors && registerControls.repeatPassword.errors.mustMatch" class="form-input-hint">Passwords does not match</p>
+                      </div>
+                </div>
+              
+              </form>
+                <div class="login-buttons login-buttons-register">
+                    <p class="form-input-hint error-occured">{{registerError.message}}</p>
+                    <a routerLink="/login">Do you arleady have acount?</a>
+                    <button (click)="onSubmit()" style="width: 100%;" class="btn btn-primary btn-lg">Sign up</button>
+                </div>
+        </div>
+          
+              
+       
+               
+      
+      
+         
+    </div>
+    
+    
+  </div>
+  
+  

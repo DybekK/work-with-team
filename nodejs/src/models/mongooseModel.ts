@@ -63,8 +63,10 @@ export const tasksSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    end_date: {
-        type: Date,
-        default: ''
+    date_from: {
+        type: String
+    },
+    date_to: {
+        type: String
     }
 });

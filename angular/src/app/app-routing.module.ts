@@ -1,17 +1,17 @@
 import { HomeComponent } from './components/home/home.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { AuthGuard } from '../auth.guard';
-import { AuthGoogleComponent } from './auth-google/auth-google.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { LeftbarComponent } from './leftbar/leftbar.component';
-import { MainHeaderComponent } from './main-header/main-header.component';
-import { TasksComponent } from './tasks/tasks.component';
-import { LeftbarAllComponent } from './leftbar-all/leftbar-all.component';
-import { TasksLeftbarComponent } from './tasks-leftbar/tasks-leftbar.component';
-import { GroupsLeftbarComponent } from './groups-leftbar/groups-leftbar.component';
+import { LoginComponent } from './components//login/login.component';
+import { RegisterComponent } from './components//register/register.component';
+import { AuthGuard } from './guards/auth.guard';
+import { AuthGoogleComponent } from './components//auth-google/auth-google.component';
+import { NavbarComponent } from './components//navbar/navbar.component';
+import { LeftbarComponent } from './components//leftbar/leftbar.component';
+import { MainHeaderComponent } from './components//main-header/main-header.component';
+import { TasksComponent } from './components//tasks/tasks.component';
+import { LeftbarAllComponent } from './components//leftbar-all/leftbar-all.component';
+import { TasksLeftbarComponent } from './components//tasks-leftbar/tasks-leftbar.component';
+import { GroupsLeftbarComponent } from './components//groups-leftbar/groups-leftbar.component';
 const routes: Routes = [
     {
         path: '',

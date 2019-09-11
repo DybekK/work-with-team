@@ -20,6 +20,19 @@ export class ContactController {
       if (info != undefined) {
         res.status(400).send({ auth: false, message: info.message });
       } else {
+        //    const data: DeepPartial<any> = {
+        //   taskname: 'Nazwa tasku',
+        //   description: 'Nazwa opisu'
+        // }
+        // const task = new Task(data);
+        // task.save();
+        // user.tasks.push(task);
+        // user.save();
+
+        // user.populate('tasks', (err: any, task: any) => {
+        //   console.log(task.tasks);
+        // })
+
             const token = jwt.sign({ id: req.body.email }, jwtSecret.secret);
             res.status(200).send({
               auth: true,
@@ -101,5 +114,44 @@ export class ContactController {
     })(req, res, next);
   }
 
+  public postTask(req: Request, res: Response, next: NextFunction){
+    passport.authenticate("jwt", {session: false}, (err, user, info) => {
+      if (err) {
+        res.status(500).send({auth: false})
+      }
+      if (info != undefined) {
+        res.status(400).send({auth: false});
+      } else {
+        const data: DeepPartial<any> = req.body;
+        const task = new Task(data);
+        task.save();
+        user.tasks.push(task);
+        user.save();
+
+        user.populate('tasks', (err: any, task: any) => {
+          if(err) {
+            res.send({complete: false});
+            return;
+          } 
+          res.send(task.tasks[task.tasks.length - 1])
+        })
+      }
+    })(req, res, next);;
+  }
+
+  public getTasks(req: Request, res: Response, next: NextFunction) {
+    passport.authenticate("jwt", {session: false}, (err, user, info) => {
+      if (err) {
+        res.status(500).send({auth: false});
+      }
+      if (info != undefined) {
+        res.status(400).send({auth: false});
+      } else {
+        user.populate('tasks', (err: any, task: any) => {
+          res.status(200).send(task.tasks);
+        })
+      }
+    })(req, res, next)
+  }
 
 }

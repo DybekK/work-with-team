@@ -3,8 +3,6 @@
 @import "../node_modules/spectre.css/src/icons";
 @import "../node_modules/flexboxgrid-sass/flexboxgrid.scss";
 
-@import '~@fullcalendar/core/main.css';
-@import '~@fullcalendar/daygrid/main.css';
 
 * {
   outline: none !important;
@@ -12,6 +10,13 @@
 .calendar .calendar-header, .calendar .calendar-body{
   justify-content: flex-start;
 }
+
+.calendar-date{
+  display: flex;
+  justify-content: center;
+}
+
+
 
 .error-occured{
   color:  $error-color;
@@ -205,9 +210,10 @@ app-login, app-register{
 
     
 
-
-    .login-buttons{
+    .login-buttons-register{
       width: 20em;
+    }
+    .login-buttons{
       p{
         margin: 0.6em 0;
       }
@@ -464,7 +470,28 @@ app-leftbar{
 }
 
 app-tasks{
+  .show-task{
+    .task-info{
+      border-bottom: 1px solid #dedede;
+      width: fit-content;
+      padding-bottom:0.3em;
+      margin: 1em 0;
+      p{
+        font-weight: 300;
+      }
+      h6{
+        margin: 0.2em;
+        
+      }
+
+    }
+  }
+  .task-area{
+
+  }
   .tasks{
+
+
     h3{
       margin: 0.5em 0;
       font-weight: 400;
@@ -490,6 +517,14 @@ app-tasks{
       .tags{
         margin-top: 0.3em;
         display: flex;
+        align-items: center;
+        justify-content: space-between;
+        button{
+          z-index: 5;
+        }
+        .tags-tags{
+          display: flex;
+        }
         span{
           &:first-child{
             margin-left: 0;
