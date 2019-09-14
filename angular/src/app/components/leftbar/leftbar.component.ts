@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UserDataService } from '../../providers/user-data.service';
 import { mongooseUser } from '../../interfaces/interfaces';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ServerDatabaseService } from '../../providers/server-database.service';
 
 @Component({
   selector: 'app-leftbar',
@@ -14,16 +14,16 @@ export class LeftbarComponent implements OnInit {
     username: ''
   }
   activatedRoute = this.route
-  constructor(private userData: UserDataService, private router: Router, private route: ActivatedRoute) {
+  constructor(private userData: ServerDatabaseService, private router: Router, private route: ActivatedRoute) {
     
     this.router.navigate([{ outlets: { leftbarOptions: ['all'] } }], {relativeTo: this.route});
    }
 
   ngOnInit() {
-    this.userData.getData$.subscribe((data: mongooseUser) => {
+    this.userData.getDataUser$.subscribe((data: mongooseUser) => {
       this.userInfo = data;
     });
-   // this.router.navigate([{ outlets: { leftbarOptions: ['everything'] } }], {relativeTo: this.route})
+  
    
   }
 
@@ -33,7 +33,5 @@ export class LeftbarComponent implements OnInit {
   showTasks(){
     this.router.navigate([{ outlets: { leftbarOptions: ['tasks'] } }], {relativeTo: this.route});
   }
-
-  showGroups(){}
 
 }

@@ -14,6 +14,9 @@
 .calendar-date{
   display: flex;
   justify-content: center;
+  .date-today{
+    border-color: $primary-color !important;
+  }
 }
 
 
@@ -415,12 +418,25 @@ app-leftbar{
       color: $text-color;
     }
 
-
     .modal{
       .form-group{
         margin: 1.3em 0 !important;
         .tags{
           margin: 1em 0;
+          display: flex;
+          .tag{
+            &:first-child{
+              margin-left: 0;
+              
+            }
+            margin: 0 0.5em;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            .icon{
+              margin-left: 12px;
+            }
+          }
         }
        
       }
@@ -519,6 +535,7 @@ app-tasks{
         display: flex;
         align-items: center;
         justify-content: space-between;
+       
         button{
           z-index: 5;
         }

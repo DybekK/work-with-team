@@ -5,7 +5,6 @@ import {
   Validators
 } from '@angular/forms';
 import * as moment from 'moment';
-import { postTask } from '../interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +12,10 @@ import { postTask } from '../interfaces/interfaces';
 export class CalendarsService {
 
   date = moment();
-  daysArray;
+  daysArray: Array<any>;
   addTaskForm: FormGroup;
+  dateTo;
+  dateFrom;
 
   constructor(private fb: FormBuilder) {
     this.daysArray = this.createCalendar(this.date);
@@ -61,16 +62,17 @@ export class CalendarsService {
   }
 
   selectDate(day){
-    let dayFormatted = day.format('DD/MM/YYYY');
-    console.log(this.addTaskForm.controls.date_to.valid)
+    let dayFormatted = day.format('DD.MM.YYYY');
     if(this.addTaskForm.valid) {
       this.addTaskForm.setValue({date_from: null, date_to: null})
       return;
     }
     if(!this.addTaskForm.get('date_from').value){
       this.addTaskForm.get('date_from').patchValue(dayFormatted);
+      this.dateFrom = day;
     } else {
       this.addTaskForm.get('date_to').patchValue(dayFormatted);
+      this.dateTo= day;
     }
   }
 
@@ -78,8 +80,8 @@ export class CalendarsService {
     if(!day){
       return false;
     }
-    let date_from = moment(this.addTaskForm.value.date_from, 'DD/MM/YYYY');
-    let date_to = moment(this.addTaskForm.value.date_to, 'DD/MM/YYYY');
+    let date_from = moment(this.addTaskForm.value.date_from, 'DD.MM.YYYY');
+    let date_to = moment(this.addTaskForm.value.date_to, 'DD.MM.YYYY');
     if(this.addTaskForm.valid){
       return date_from.isSameOrBefore(day) && date_to.isSameOrAfter(day);
     }

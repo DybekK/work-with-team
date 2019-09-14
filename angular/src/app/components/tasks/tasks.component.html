@@ -12,7 +12,12 @@
           </div>
           <div class="task-info">
               <p>Full task's description</p>
-              <h6>{{moreInfoTaskData?.description}}</h6>
+              <ng-container *ngIf="moreInfoTaskData?.description == ''; else elseDesc">
+                <h6>There is no description</h6>
+              </ng-container>
+              <ng-template #elseDesc>
+                  <h6>{{moreInfoTaskData?.description}}</h6>
+              </ng-template>
           </div>
           <div class="task-info">
               <p>Repetition</p>

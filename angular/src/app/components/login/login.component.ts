@@ -4,7 +4,7 @@ import { ServerAuthService } from '../../providers/server-auth.service';
 import { Router } from '@angular/router';
 import { remote } from 'electron';
 import { HttpErrorResponse } from '@angular/common/http';
-import { mongooseUser, loginUser } from '../../interfaces/interfaces';
+import { loginUser } from '../../interfaces/interfaces';
 require('events').EventEmitter.defaultMaxListeners = 100;
 @Component({
   selector: 'app-login',
@@ -94,7 +94,7 @@ export class LoginComponent implements OnInit {
 
       }
       catch (e){
-
+        
       }
       authWindow.on('closed', () => {
         authWindow = null;

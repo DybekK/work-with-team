@@ -1,4 +1,4 @@
-import {Application, Response, Request} from "express";
+import { Application } from "express";
 import { ContactController } from "../controllers/controller";
 import { UserAuth } from "../strategy/authStrategy";
 
@@ -31,5 +31,11 @@ public userAuth: UserAuth = new UserAuth();
 
     app.route('/getTasks')
     .get(this.contactController.getTasks);
+
+    app.route('/addTag')
+    .post(this.contactController.addTag);
+
+    app.route('/getTags')
+    .get(this.contactController.getTags);
     }
 }

@@ -1,7 +1,7 @@
 
   <div class="modal" id="add-new-task"><a class="modal-overlay" href="#modals-sizes" aria-label="Close"></a>
     <div class="modal-container" role="document">
-      <div class="modal-header"><a class="btn btn-clear float-right" href="#modals-sizes" aria-label="Close"></a>
+      <div class="modal-header"><a class="btn btn-clear float-right" (click)="cancelAdd()" href="#modals-sizes" aria-label="Close"></a>
         <div class="modal-title h5">Add new task</div>
       </div>
       <div class="modal-body">
@@ -33,15 +33,38 @@
                   </label>
                   
             </div>
-            <div class="form-group">
-                <label class="form-label" for="input-example-7">Add tags</label>
-                <input class="form-input" id="input-example-7" type="text" placeholder="Name">
-                <div class="tags">
-                    <span class="label label-rounded label-secondary ">primary label</span>
-                    <span class="label label-rounded label-secondary">primary label</span>
-                    <span class="label label-rounded label-secondary">primary label</span>
+
+              <div class="accordion">
+                <input id="accordion-tag1" type="checkbox" name="accordion-radio" hidden="" checked="">
+                <label class="accordion-header c-hand" for="accordion-tag1"><i class="icon icon-arrow-right mr-1"></i>Elements</label>
+                <div class="accordion-body">
+                  <ul class="menu menu-nav">
+                    <li class="menu-item">
+                      <div class="form-group">
+                        Added tasks
+                          <div class="tags">
+                            <span *ngFor="let tag of tagsAdded; let i = index" class="label label-rounded label-secondary tag">
+                                {{tag.tagname}}
+                                <i style="height: 12px; width: 12px;" (click)="removeTag(i)"  class="icon icon-cross btn btn-link btn-action"></i>
+                              </span>
+                            </div>
+                        <label class="form-label" for="input-example-7">Search tags</label>
+                        <input (input)="inputSearchTags($event)" class="form-input" id="input-example-7" type="text" placeholder="Name">
+                        <div class="tags">
+                            <span *ngFor="let tag of result; let i = index" class="label label-rounded label-secondary tag">
+                              {{tag.tagname}}
+                              <i style="height: 12px; width: 12px;" (click)="addTag(tag, i)" class="icon icon-plus btn btn-link btn-action"></i>
+                            </span>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
                 </div>
               </div>
+
+  
+            
+        
             </form>
               <form [formGroup]="calendar.addTaskForm">
                   <div class="calendar">
@@ -61,29 +84,51 @@
                           <div class="calendar-date">Sat</div>
                         </div>
                         <div class="calendar-body">
-                          <div *ngFor="let day of calendar.daysArray"  [ngClass]="{'calendar-range': calendar.isSelected(day)}" class="calendar-date">
-                            <button (click)="calendar.selectDate(day)" [ngClass]="{'date-today': calendar.setToday(day)}" class="date-item">{{day?.date()}}</button>
+                          <div *ngFor="let day of calendar.daysArray"  [ngClass]="{'calendar-range': calendar.isSelected(day), 'range-start': day?.isSame(this.calendar.dateFrom), 'range-end': day?.isSame(this.calendar.dateTo)}" class="calendar-date">
+                            <button (click)="calendar.selectDate(day)" data-tooltip="Today" [ngClass]="{'date-today': calendar.setToday(day), 'tooltip': calendar.setToday(day)}" class="date-item">{{day?.date()}}</button>
                           </div>
                         </div>
                       </div>
                     </div>
                  
               <div class="form-group date-output-range">
-                  <input class="form-input" id="input-example-7" type="text" placeholder="Start date DD/MM/YYYY" formControlName="date_from" name="date_from">
+                  <input (input)="inputChangeDate()" class="form-input" id="input-example-7" type="text" placeholder="Start date DD/MM/YYYY" formControlName="date_from" name="date_from">
             
-                  <input class="form-input" id="input-example-7" type="text" placeholder="End date DD/MM/YYYY " formControlName="date_to" name="date_to">
+                  <input (input)="inputChangeDate()" class="form-input" id="input-example-7" type="text" placeholder="End date DD/MM/YYYY " formControlName="date_to" name="date_to">
                 </div>
               </form>
         </div>
       </div>
       <div class="modal-footer">
-        <button (click)="onPostTaskSubmit()" class="btn btn-primary">Add task</button><a (click)="addTaskDataForm.reset()" class="btn btn-link" href="#modals-sizes" aria-label="Close">Cancel</a>
+        <button (click)="onPostTaskSubmit()" class="btn btn-primary">Add task</button><a (click)="cancelAdd()" class="btn btn-link" href="#modals-sizes" aria-label="Close">Cancel</a>
       </div>
     </div>
   </div>
 
 
-
+  <div class="modal modal-sm" id="add-new-tag"><a class="modal-overlay" href="#modals-sizes" aria-label="Close"></a>
+    <div class="modal-container" role="document">
+      <div class="modal-header"><a class="btn btn-clear float-right" href="#modals-sizes" aria-label="Close"></a>
+        <div class="modal-title h5">Modal title</div>
+      </div>
+      <div class="modal-body">
+        <div class="content">
+          <form [formGroup]="postTagForm">
+            <div class="form-group">
+              <label class="form-label" for="input-example-7">Tag name</label>
+              <input formControlName="tagname" class="form-input" id="input-example-7" type="text" placeholder="Name">
+            </div>
+            <div class="form-group">
+      
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button (click)="postTag()" class="btn btn-primary">Submit</button><a class="btn btn-link" href="#modals-sizes" aria-label="Close">Close</a>
+      </div>
+    </div>
+  </div>
 
 
     <div class="main-header">
@@ -116,6 +161,7 @@
           <ul style="margin-left: -8em;" class="menu">
             <li class="menu-item"><a href="#add-new-task">Add new task</a></li>
              <li class="menu-item"><a>Add new project</a></li>
+             <li class="menu-item"><a href="#add-new-tag">Add new tags</a></li>
           </ul>
         
       </div>

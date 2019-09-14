@@ -39,7 +39,8 @@ export const userSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    tasks: [{type: Schema.Types.ObjectId, ref: 'tasks'}]
+    tasks: [{type: Schema.Types.ObjectId, ref: 'tasks'}],
+    tags: [{type: Schema.Types.ObjectId, ref: 'tags'}]
 });
 
 export const tasksSchema = new Schema({
@@ -68,5 +69,16 @@ export const tasksSchema = new Schema({
     },
     date_to: {
         type: String
+    },
+});
+
+export const tagsSchema = new Schema({
+    tagname: {
+        type: String,
+        required: true
+    },
+    created_date: {
+        type: Date,
+        default: Date.now
     }
 });

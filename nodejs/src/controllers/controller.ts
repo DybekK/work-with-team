@@ -1,7 +1,7 @@
-import mongoose, { DeepPartial } from "mongoose";
+import mongoose, { DeepPartial  } from "mongoose";
 import passport from "passport";
 import { UserAuth } from "../strategy/authStrategy";
-import { userSchema, tasksSchema } from "../models/mongooseModel";
+import { userSchema, tasksSchema, tagsSchema } from "../models/mongooseModel";
 import { Request, Response } from "express";
 import { NextFunction } from "connect";
 import jwt from "jsonwebtoken";
@@ -9,6 +9,7 @@ import jwtSecret from "../configs/jwtConfig";
 
 export const User = mongoose.model("users", userSchema);
 const Task = mongoose.model("tasks", tasksSchema);
+const Tag = mongoose.model('tags', tagsSchema);
 
 export class ContactController {
   public userAuth = new UserAuth();
@@ -124,6 +125,10 @@ export class ContactController {
       } else {
         const data: DeepPartial<any> = req.body;
         const task = new Task(data);
+        // for(let i = 0; i < data.tags.length; i++) {
+        //   const tag = new Tag(data.tags);
+        // }
+        
         task.save();
         user.tasks.push(task);
         user.save();
@@ -139,6 +144,30 @@ export class ContactController {
     })(req, res, next);;
   }
 
+  public addTag(req: Request, res: Response, next: NextFunction){
+    passport.authenticate("jwt", {session: false}, (err, user, info) => {
+      if (err) {
+        res.status(500).send({auth: false})
+      }
+      if (info != undefined) {
+        res.status(400).send({auth: false});
+      } else {
+        const data: DeepPartial<any> = req.body;
+        const tag = new Tag(data);
+        tag.save();
+        user.tags.push(tag);
+        user.save();
+        user.populate('tags', (err: any, tag: any) => {
+          if(err) {
+            res.send({complete: false});
+            return;
+          } 
+          res.send(tag.tags[tag.tags.length - 1])
+        })
+      }
+    })(req, res, next);;
+  }
+
   public getTasks(req: Request, res: Response, next: NextFunction) {
     passport.authenticate("jwt", {session: false}, (err, user, info) => {
       if (err) {
@@ -149,6 +178,25 @@ export class ContactController {
       } else {
         user.populate('tasks', (err: any, task: any) => {
           res.status(200).send(task.tasks);
+        })
+      }
+    })(req, res, next)
+  }
+
+  public getTags(req: Request, res: Response, next: NextFunction) {
+    passport.authenticate("jwt", {session: false}, (err, user, info) => {
+      if (err) {
+        res.status(500).send({auth: false});
+      }
+      if (info != undefined) {
+        res.status(400).send({auth: false});
+      } else {
+        user.populate('tags', (err: any, tag: any) => {
+          if(err) {
+            res.send({complete: false});
+            return;
+          } 
+          res.send(tag.tags);
         })
       }
     })(req, res, next)
