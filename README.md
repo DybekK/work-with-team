@@ -1,6 +1,6 @@
 # WorkWIthTeam App
 
-##*Electron app *
+## *Electron app *
 **Executes the app in the browser**
 - npm run ng:serve:web
 
@@ -27,7 +27,7 @@
 - npm run electron:mac
 
 
-##*Node.js server*
+## *Node.js server*
 **Builds server in dist folder**
 - npm run prod
 
