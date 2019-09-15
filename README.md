@@ -1,6 +1,6 @@
 # WorkWIthTeam App
 
-## *Electron app *
+## *Electron app*
 **Executes the app in the browser**
 - npm run ng:serve:web
 
