@@ -69,6 +69,7 @@ export class MainHeaderComponent implements OnInit {
     this.calendar.addTaskForm.value.date_from = date_from;
     this.calendar.addTaskForm.value.date_to = date_to;
     const data: postTask = Object.assign({}, this.calendar.addTaskForm.value, this.addTaskDataForm.value);
+    this.addTaskDataForm.value.tags = this.tagsArray;
     this.serverDatabase.postTask(data).subscribe((res) => {
       console.log(data);
       this.serverDatabase.getData(res);
@@ -89,7 +90,8 @@ export class MainHeaderComponent implements OnInit {
 
 
   inputSearchTags(value){
-    this.globalSearchValue = value.target.value;
+      this.globalSearchValue = value.target.value;
+    
     const options: Fuse.FuseOptions<any>  = {
       shouldSort: true,
       threshold: 0,
@@ -109,6 +111,27 @@ export class MainHeaderComponent implements OnInit {
     console.log(this.result);
   }
 
+
+  searchTags(){
+    const options: Fuse.FuseOptions<any>  = {
+      shouldSort: true,
+      threshold: 0,
+      location: 0,
+      distance: 0,
+      keys: [
+        "tagname"
+      ]
+    };
+    const fuse = new Fuse(this.tagsArray, options);
+    if(this.globalSearchValue.length == 0){
+      this.result = this.tagsArray;
+    } else {
+      this.result = fuse.search(this.globalSearchValue);
+    }
+  
+  }
+
+
   addTag(tag, id){
     this.tagsAdded.push(tag);
     if(this.globalSearchValue.length == 0) {
@@ -116,20 +139,16 @@ export class MainHeaderComponent implements OnInit {
       this.tagsArray.splice(id, 1)
     } else {
       let arr = this.tagsAdded.concat(this.tagsArray);
-      const set:any = new Set();
-      arr = arr.filter(tag => {
-        const duplicate = set.has(tag.tagname);
-        set.delete(tag.tagname);
-        return !duplicate;
-      });
-      console.log(arr);
-
-
-      // for(let i = 0; i < arr.length-1; i++) {
-      //   if(arr[i] != undefined && arr[i].tagname != arr[i+1].tagname){
-      //     filteredArr.push(arr[i]);
-      //   } 
-      // }
+      arr.sort((a, b) => (a.tagname > b.tagname) ? 1 : -1) 
+  
+      
+       
+      for (var i = 0; i < arr.length - 1; i++) {
+          if (arr[i] == arr[i+1]) {
+              this.tagsArray.splice(i,1);
+          }
+      }
+      console.log(this.tagsArray)
 
 
       this.result.splice(id, 1);
@@ -150,8 +169,8 @@ export class MainHeaderComponent implements OnInit {
       this.result = this.tagsArray;
  
     } else {
-      //this.inputSearchTags(this.globalSearchValue);
-  
+      
+      this.searchTags();
     }
 
   }
@@ -178,7 +197,9 @@ console.log(this.calendar.dateFrom)
 postTag(){
   let tag = this.postTagForm.value;
   this.serverDatabase.addTag(tag).subscribe((res) => {
-    console.log(res);
+    this.tagsArray.push(res);
+    this.result = this.tagsArray;
+    // MUSZE POZNIEJ NAPRAWIC W SERWERZE
   })
 }
 

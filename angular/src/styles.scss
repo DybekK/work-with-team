@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/spectre.css/src/spectre.scss";
+@import "../node_modules/spectre.css/src/calendars";
 @import "../node_modules/spectre.css/src/icons";
 @import "../node_modules/flexboxgrid-sass/flexboxgrid.scss";
 
@@ -24,7 +25,7 @@
 .error-occured{
   color:  $error-color;
   font-size: 1em;
-}
+}           
 
 h1,h2,h3,h4,h5,h6,p,span{
   padding: 0;
